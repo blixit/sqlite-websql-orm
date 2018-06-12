@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "An orm for both sqlite and websql usable in Angular 2+ and Ionic 2+",
   "main": "dist/orm.js",
-  "types" : "dist/orm.d.ts",
+  "types": "dist/orm.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p tsconfig.json",
@@ -36,6 +36,13 @@
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
     "ng-packagr": "^2.4.1",
-    "typescript": "~2.6.2"
+    "typescript": "^2.6.2"
+  },
+  "bugs": {
+    "url": "https://github.com/blixit/sqlite-websql-orm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blixit/sqlite-websql-orm.git"
   }
 }
