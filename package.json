@@ -1,0 +1,41 @@
+{
+  "name": "sqlite-websql-orm",
+  "version": "0.0.1",
+  "description": "An orm for both sqlite and websql usable in Angular 2+ and Ionic 2+",
+  "main": "dist/orm.js",
+  "types" : "dist/orm.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "build-tmp": "./run && rm -rf ../test-module-injector/node_modules/sqlite-websql-orm/dist/* && cp -R dist/* ../test-module-injector/node_modules/sqlite-websql-orm/dist"
+  },
+  "keywords": [
+    "orm",
+    "angular",
+    "ionic",
+    "websql",
+    "sqlite"
+  ],
+  "author": "Blixit<alain.ngangoue@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@angular/common": "5.2.9",
+    "@angular/compiler": "5.2.9",
+    "@angular/compiler-cli": "5.2.9",
+    "@angular/core": "5.2.9",
+    "@angular/platform-browser": "5.2.9",
+    "@angular/platform-browser-dynamic": "5.2.9",
+    "@ionic-native/core": "4.7.0",
+    "@ionic-native/device": "^4.7.0",
+    "@ionic-native/sqlite": "4.7.0",
+    "@ionic/storage": "2.1.3",
+    "ionic-angular": "3.9.2",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "5.5.7"
+  },
+  "devDependencies": {
+    "@ionic/app-scripts": "3.1.9",
+    "ng-packagr": "^2.4.1",
+    "typescript": "~2.6.2"
+  }
+}
