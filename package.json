@@ -6,7 +6,7 @@
   "types": "dist/orm.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && typedoc --out docs lib",
     "build-tmp": "./run && rm -rf ../test-module-injector/node_modules/sqlite-websql-orm/dist/* && cp -R dist/* ../test-module-injector/node_modules/sqlite-websql-orm/dist"
   },
   "keywords": [

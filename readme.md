@@ -1,6 +1,7 @@
 # SQLite-WebSQL-ORM
 
 An orm for both sqlite and websql usable in Angular 2+ and Ionic 2+. 
+[Follow us On Github](https://github.com/blixit/sqlite-websql-orm)
 
 ## Installation 
 
