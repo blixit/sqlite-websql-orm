@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
+    "@types/node": "^10.3.4",
     "ng-packagr": "^2.4.1",
     "typescript": "^2.6.2"
   },

@@ -10,5 +10,5 @@
       "outDir": "./dist",
       "lib": ["es2015", "dom"]
    },
-   "files": ["./lib/orm.ts"]
+   "files": ["./lib/orm.ts", "lib/bin/generate-repository.ts"]
 }
