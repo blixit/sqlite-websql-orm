@@ -1,6 +1,6 @@
 {
   "name": "sqlite-websql-orm",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "An orm for both sqlite and websql usable in Angular 2+ and Ionic 2+",
   "main": "dist/orm.js",
   "types": "dist/orm.d.ts",
