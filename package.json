@@ -45,5 +45,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/blixit/sqlite-websql-orm.git"
+  },
+  "preferGlobal": true,
+  "directories": {
+    "bin": "./lib/bin"
   }
 }

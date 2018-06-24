@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SchemaFactory | sqlite-websql-orm</title>
+	<title>EntityGenerator | sqlite-websql-orm</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_schemafactory_service_.html">&quot;SchemaFactory.service&quot;</a>
+					<a href="../modules/_commands_entity_generator_.html">&quot;Commands/entity-generator&quot;</a>
 				</li>
 				<li>
-					<a href="_schemafactory_service_.schemafactory.html">SchemaFactory</a>
+					<a href="_commands_entity_generator_.entitygenerator.html">EntityGenerator</a>
 				</li>
 			</ul>
-			<h1>Class SchemaFactory</h1>
+			<h1>Class EntityGenerator</h1>
 		</div>
 	</div>
 </header>
@@ -73,8 +73,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SchemaFactory</span>
+						<span class="target">EntityGenerator</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/_commands_generator_interface_.genratorinterface.html" class="tsd-signature-type">GenratorInterface</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -84,19 +90,21 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_schemafactory_service_.schemafactory.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_commands_entity_generator_.entitygenerator.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-private-protected">
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_schemafactory_service_.schemafactory.html#manager" class="tsd-kind-icon">manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_commands_entity_generator_.entitygenerator.html#entity" class="tsd-kind-icon">entity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_commands_entity_generator_.entitygenerator.html#out" class="tsd-kind-icon">out</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_schemafactory_service_.schemafactory.html#generateschema" class="tsd-kind-icon">generate<wbr>Schema</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_commands_entity_generator_.entitygenerator.html#generate" class="tsd-kind-icon">generate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_commands_entity_generator_.entitygenerator.html#generatecontent" class="tsd-kind-icon">generate<wbr>Content</a></li>
 							</ul>
 						</section>
 					</div>
@@ -108,35 +116,48 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Schema<wbr>Factory<span class="tsd-signature-symbol">(</span>manager<span class="tsd-signature-symbol">: </span><a href="_manager_service_.manager.html" class="tsd-signature-type">Manager</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_schemafactory_service_.schemafactory.html" class="tsd-signature-type">SchemaFactory</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Entity<wbr>Generator<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, out<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_commands_entity_generator_.entitygenerator.html" class="tsd-signature-type">EntityGenerator</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blixit/sqlite-websql-orm/blob/c27c69b/lib/SchemaFactory.service.ts#L11">SchemaFactory.service.ts:11</a></li>
+									<li>Defined in Commands/entity-generator.ts:5</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>manager: <a href="_manager_service_.manager.html" class="tsd-signature-type">Manager</a></h5>
+									<h5>entity: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>out: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_schemafactory_service_.schemafactory.html" class="tsd-signature-type">SchemaFactory</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_commands_entity_generator_.entitygenerator.html" class="tsd-signature-type">EntityGenerator</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="manager" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> manager</h3>
-					<div class="tsd-signature tsd-kind-icon">manager<span class="tsd-signature-symbol">:</span> <a href="_manager_service_.manager.html" class="tsd-signature-type">Manager</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="entity" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> entity</h3>
+					<div class="tsd-signature tsd-kind-icon">entity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blixit/sqlite-websql-orm/blob/c27c69b/lib/SchemaFactory.service.ts#L14">SchemaFactory.service.ts:14</a></li>
+							<li>Defined in Commands/entity-generator.ts:7</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="out" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> out</h3>
+					<div class="tsd-signature tsd-kind-icon">out<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Commands/entity-generator.ts:7</li>
 						</ul>
 					</aside>
 				</section>
@@ -144,25 +165,38 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="generateschema" class="tsd-anchor"></a>
-					<h3>generate<wbr>Schema</h3>
+					<a name="generate" class="tsd-anchor"></a>
+					<h3>generate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Schema<span class="tsd-signature-symbol">(</span>repositories<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_commands_generator_interface_.genratorinterface.html">GenratorInterface</a>.<a href="../interfaces/_commands_generator_interface_.genratorinterface.html#generate">generate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blixit/sqlite-websql-orm/blob/c27c69b/lib/SchemaFactory.service.ts#L17">SchemaFactory.service.ts:17</a></li>
+									<li>Defined in Commands/entity-generator.ts:18</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> repositories: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="generatecontent" class="tsd-anchor"></a>
+					<h3>generate<wbr>Content</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Content<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_commands_generator_interface_.genratorinterface.html">GenratorInterface</a>.<a href="../interfaces/_commands_generator_interface_.genratorinterface.html#generatecontent">generateContent</a></p>
+								<ul>
+									<li>Defined in Commands/entity-generator.ts:11</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -192,7 +226,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_annotations_repository_.html">"<wbr>Annotations/<wbr>Repository"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_commands_entity_generator_.html">"<wbr>Commands/entity-<wbr>generator"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -225,7 +259,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_repository_repositoryinterface_interface_.html">"<wbr>Repository/<wbr>Repository<wbr>Interface.interface"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_schemafactory_service_.html">"<wbr>Schema<wbr>Factory.service"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -256,21 +290,30 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_schemafactory_service_.schemafactory.html" class="tsd-kind-icon">Schema<wbr>Factory</a>
+						<a href="_commands_entity_generator_.entitygenerator.html" class="tsd-kind-icon">Entity<wbr>Generator</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_schemafactory_service_.schemafactory.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_commands_entity_generator_.entitygenerator.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="_schemafactory_service_.schemafactory.html#manager" class="tsd-kind-icon">manager</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_commands_entity_generator_.entitygenerator.html#entity" class="tsd-kind-icon">entity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_commands_entity_generator_.entitygenerator.html#out" class="tsd-kind-icon">out</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_schemafactory_service_.schemafactory.html#generateschema" class="tsd-kind-icon">generate<wbr>Schema</a>
+								<a href="_commands_entity_generator_.entitygenerator.html#generate" class="tsd-kind-icon">generate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_commands_entity_generator_.entitygenerator.html#generatecontent" class="tsd-kind-icon">generate<wbr>Content</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_commands_entity_generator_.html#fs" class="tsd-kind-icon">fs</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

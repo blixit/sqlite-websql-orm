@@ -1,7 +1,7 @@
 {
    "compilerOptions": {
       "target": "es5",
-      "module": "es2015",
+      "module": "commonjs",
       "sourceMap":   true,
       "moduleResolution": "node",
       "emitDecoratorMetadata": true,
@@ -10,5 +10,5 @@
       "outDir": "./dist",
       "lib": ["es2015", "dom"]
    },
-   "files": ["./lib/orm.ts", "lib/bin/generate-repository.ts"]
+   "files": ["./lib/orm.ts", "lib/bin/swo.ts", "lib/command-utils.ts"]
 }
