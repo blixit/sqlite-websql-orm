@@ -1,5 +1,5 @@
-const EntityGenerator = require(process.cwd()+'/dist/Commands/entity-generator').EntityGenerator; 
-const RepositoryGenerator = require(process.cwd()+'/dist/Commands/repository-generator').RepositoryGenerator; 
+const EntityGenerator = require('../Commands/entity-generator').EntityGenerator; 
+const RepositoryGenerator = require('../Commands/repository-generator').RepositoryGenerator; 
 
 class SwoCommand {
 
@@ -15,8 +15,8 @@ class SwoCommand {
 
     constructor(){
         let cpt = 0;
-        let classNamePattern = /^([a-zA-Z])([a-zA-Z0-9_]+)/;
-        
+        let classNamePattern = /^([a-zA-Z])([a-zA-Z0-9_]{0,})/;
+
         process.argv.forEach( (val, index, array) => {
             if(index < 2) return;
         
