@@ -43,12 +43,10 @@ export class OrmModule{
     constructor(
         public manager: Manager
     ) {
-        console.log('Building the module...', this.manager);
         this.manager.setConfiguration(OrmModule.configuration);
     }
 
     static init(configuration: Configuration) {
-        console.log('Initializing the module...', configuration);
 
         OrmModule.configuration = configuration;
         return OrmModule;
