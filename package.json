@@ -48,6 +48,6 @@
   },
   "preferGlobal": true,
   "directories": {
-    "bin": "./lib/bin"
+    "bin": "./bin"
   }
 }

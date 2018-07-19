@@ -1,3 +1,4 @@
 /dist
 /tools
 /node_modules
+package-lock.json
