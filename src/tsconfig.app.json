@@ -3,7 +3,13 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "es2015",
-    "types": []
+    "types": [],
+    "paths": { 
+      "@angular/*": ["./node_modules/@angular/*"],
+      "rxjs/*": ["./node_modules/rxjs/*"],
+      "rxjs-compat/*": ["./node_modules/rxjs-compat/*"],
+      "@ionic/*": ["./node_modules/@ionic/*"]
+    }
   },
   "exclude": [
     "src/test.ts",

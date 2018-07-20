@@ -24,8 +24,12 @@ export class EntityStore {
      * This array links entities with their repositories
      *
      * {
-     *  EntityName: RepositoryName,
-     *  User: UserRepository
+     *  entityname:
+     *   {
+     *     name: string, // field name on the database table
+     *     type: string, // sql type
+     *     propertyKey: string // property name
+     *   }
      * }
      */
     static columnAnnotations = {};
@@ -45,7 +49,7 @@ export class EntityStore {
      * Ensure the object that stores column informations is set
      * @param classname
      */
-    static initColumnAnnotation(classname: string) {
+    static initTableSchema(classname: string) {
         EntityStore.columnAnnotations[classname] = EntityStore.columnAnnotations[classname] || [];
         return EntityStore;
     }
@@ -54,6 +58,10 @@ export class EntityStore {
 
         EntityStore.columnAnnotations[classname].push(columnAnnotationInfo);
         return EntityStore;
+    }
+
+    static getTableSchema(classname: string) {
+        return EntityStore.columnAnnotations[classname];
     }
 
     static initJointureAnnotations(classname: string) {
@@ -74,6 +82,10 @@ export class EntityStore {
         }
 
         return EntityStore;
+    }
+
+    static getJointureAnnotations(classname: string) {
+        return EntityStore.jointureAnnotations[classname];
     }
 
 }

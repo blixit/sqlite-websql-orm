@@ -12,7 +12,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "paths": { "@angular/*": ["../../node_modules/@angular/*"] },
+    "paths": { 
+      "@angular/*": ["../../node_modules/@angular/*"],
+      "rxjs/*": ["../../node_modules/rxjs/*"]
+    },
     "lib": [
       "dom",
       "es2015"

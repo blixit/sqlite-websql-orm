@@ -14,21 +14,11 @@ export class AppComponent implements OnInit {
   userRepository: UserRepository = new UserRepository();
 
   ngOnInit() {
-    this.testConfiguration({
-      name: '',
-      location: '',
-      options: {
-        adapter: ''
-      }
-    });
+
   }
 
   testConfiguration(c: ConfigurationInterface) {
-    Configuration.merge(c);
-    console.log('Configuration', c);
 
-    console.log('RepositoryStore repos', RepositoryStore.store);
-    console.log('RepositoryStore sources', RepositoryStore.mapNamesConstructors);
   }
 
 }

@@ -1,5 +1,5 @@
 import { ManagerInterface } from './Manager.interface';
-import { Configuration, ConfigurationInterface } from '../Configuration';
+import { ConfigurationInterface } from '../Configuration';
 
 export class Manager implements ManagerInterface {
 

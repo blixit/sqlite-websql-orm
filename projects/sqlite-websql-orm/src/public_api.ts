@@ -27,7 +27,7 @@ export * from './lib/Manager/Manager.service';
 
 // Schema
 export * from './lib/Schema/Factory.service';
-export * from './lib/Schema/Table.service';
+export * from './lib/Schema/SQL.service';
 
 // Store
 export * from './lib/Store/EntityStore.service';

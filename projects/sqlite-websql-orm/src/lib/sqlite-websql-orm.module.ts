@@ -4,7 +4,7 @@ import { SQLite             } from '@ionic-native/sqlite';  // SQLite
 
 import { Manager            } from './Manager/Manager.service';
 import { SchemaFactory      } from './Schema/Factory.service';
-import { TableFactory       } from './Schema/Table.service';
+import { SQLFactory         } from './Schema/SQL.service';
 
 import { EntityStore        } from './Store/EntityStore.service';
 import { RepositoryStore    } from './Store/RepositoryStore.service';
@@ -15,12 +15,12 @@ import { RepositoryStore    } from './Store/RepositoryStore.service';
 
 import { Configuration        } from './Configuration';
 
-export function getSchemaFactory(manager: Manager, tableFactory: TableFactory) {
+export function getSchemaFactory(manager: Manager, sqlFactory: SQLFactory) {
 
     // let eraseDatabase = process.env.IONIC_ENV === 'prod' ? false : true;
     // https://forum.ionicframework.com/t/injecting-environment-variables-into-the-build/111875/2
 
-    return new SchemaFactory(manager, tableFactory);
+    return new SchemaFactory(manager, sqlFactory);
 }
 
 @NgModule({
@@ -31,11 +31,11 @@ export function getSchemaFactory(manager: Manager, tableFactory: TableFactory) {
   providers: [
 
     SQLite,
-    TableFactory,
 
     {provide: Manager, useClass: Manager, deps: [SQLite]},
+    {provide: SQLFactory, useClass: SQLFactory, deps: []},
 
-    {provide: SchemaFactory, useFactory: getSchemaFactory, deps: [Manager, TableFactory]},
+    {provide: SchemaFactory, useFactory: getSchemaFactory, deps: [Manager, SQLFactory]},
 
     RepositoryStore, EntityStore,
 

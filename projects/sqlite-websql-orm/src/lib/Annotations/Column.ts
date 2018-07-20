@@ -14,7 +14,7 @@ export function Column (type: string, name: string = null): any {
             const targettedClass = target.constructor.name;
 
             // ensure the store is ready for the targetted class
-            EntityStore.initColumnAnnotation(targettedClass);
+            EntityStore.initTableSchema(targettedClass);
 
             // associate the column field to the targetted class
             EntityStore.addColumnAnnotation(targettedClass, {

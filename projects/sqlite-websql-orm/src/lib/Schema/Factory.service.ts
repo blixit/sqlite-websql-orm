@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import { Manager } from '../Manager/Manager.service';
 import { EntityStore } from '../Store/EntityStore.service';
 import { RepositoryStore } from '../Store/RepositoryStore.service';
-import { TableFactory } from './Table.service';
+import { SQLFactory } from './SQL.service';
 
 @Injectable()
 export class SchemaFactory {
 
     constructor(
         protected manager: Manager,
-        protected tableFactory: TableFactory
+        protected sqlFactory: SQLFactory
     ) { }
 
-    generateSchema(repositories: Array<any> = []) {
+    generateSchema(repositories: Array<any> = []): Promise<any> {
         return new Promise(async (resolve, reject) => {
             let db: any;
 
@@ -31,7 +31,7 @@ export class SchemaFactory {
                 const classToken = RepositoryStore.getClassToken(repository.name);
                 const schema = EntityStore.columnAnnotations[classToken.name];
 
-                const createTableSql: string = this.tableFactory.createTable({
+                const createTableSql: string = this.sqlFactory.getCreateTableSql({
                     tableName: classToken.name,
                     schema: schema,
                     erase: false
