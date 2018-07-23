@@ -1,6 +1,6 @@
 {
   "name": "sqlite-websql-orm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An orm for both sqlite and websql usable in Angular 2+ and Ionic 2+",
   "peerDependencies": {
     "@angular/common": "^6.0.0",
@@ -27,5 +27,4 @@
     "url": "git+https://github.com/blixit/sqlite-websql-orm.git"
   },
   "preferGlobal": true
-
 }
