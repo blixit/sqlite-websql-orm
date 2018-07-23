@@ -27,11 +27,16 @@ npm i sqlite-websql-orm
 - the public API didn't change from 0.2.2 to 1.0.3
 
 
-## [2. Usage (docs/usage.md)](docs/usage.md)
+## [2. Usage](docs/usage.md)
 
 You can access the usage documentation here [docs/usage.md](docs/usage.md). 
 
-## [3. Changes from 0.2.2 to 1.0.0]()
+## [3. Known issues](docs/issues.md)
+
+If you get an issue please look first to the know issue or add an issue to our repository.
+[docs/issues.md](docs/issues.md).
+
+## [4. Changes from 0.2.2 to 1.0.0]()
 
 ### 1. Configuration
 

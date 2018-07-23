@@ -10,6 +10,14 @@
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2"
   },
+  "dependencies": {
+    "@angular/common": "^6.0.0",
+    "@angular/core": "^6.0.0",
+    "@ionic-native/core": "^4.10.0",
+    "@ionic-native/sqlite": "^4.10.0",
+    "rxjs": "^6.2.2",
+    "rxjs-compat": "^6.2.2"
+  },
   "keywords": [
     "orm",
     "angular",
