@@ -9,11 +9,13 @@ import { SQLFactory         } from './Schema/SQL.service';
 import { EntityStore        } from './Store/EntityStore.service';
 import { RepositoryStore    } from './Store/RepositoryStore.service';
 
-// import { EntityRepository   } from './Repository/EntityRepository.service';
+import { EntityRepository   } from './Repository/EntityRepository.service';
 // import { ObjectRepository   } from './Repository/ObjectRepository.service';
-// import { RepositoryInterface } from './Repository/RepositoryInterface.interface';
 
 import { Configuration        } from './Configuration';
+
+import { Connector as SQLiteConnector } from './Adapters/SQLite/Connector';
+import { Connector as WebSqlConnector } from './Adapters/WebSQL/Connector';
 
 export function getSchemaFactory(manager: Manager, sqlFactory: SQLFactory) {
 
@@ -39,7 +41,9 @@ export function getSchemaFactory(manager: Manager, sqlFactory: SQLFactory) {
 
     RepositoryStore, EntityStore,
 
-    // ObjectRepository, EntityRepository,
+    EntityRepository,
+
+    SQLiteConnector, WebSqlConnector,
 
   ]
 })

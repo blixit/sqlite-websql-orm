@@ -4,22 +4,28 @@
 
 export * from './lib/sqlite-websql-orm.module';
 
-// Configuration
-export * from './lib/Configuration';
+// Adapters
+export * from './lib/Adapters/AbstractAdapter';
+// export * from './lib/Adapters/WebSQL/WebSQLAdapter';
 
 // Annotations
 export * from './lib/Annotations/Column';
 export * from './lib/Annotations/Join';
 export * from './lib/Annotations/Repository';
 
+// Configuration
+export * from './lib/Configuration';
+
+// Errors
+export * from './lib/Errors';
+
 // Entity
 export * from './lib/Entity/AbstractEntity.class';
 export * from './lib/Entity/EntityInterface.interface';
 
-// // Repository
-// export * from './Repository/RepositoryInterface.interface';
-// export * from './Repository/EntityRepository.service';
-// export * from './Repository/ObjectRepository.service'
+// Repository
+export * from './lib/Repository/RepositoryInterface.interface';
+export * from './lib/Repository/EntityRepository.service';
 
 // Manager
 export * from './lib/Manager/Manager.interface';
@@ -33,3 +39,4 @@ export * from './lib/Schema/SQL.service';
 export * from './lib/Store/EntityStore.service';
 export * from './lib/Store/RepositoryStore.service';
 
+export * from './lib/Schema/SQLQueriesInterfaces';

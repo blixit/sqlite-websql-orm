@@ -2,11 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Platform, Events } from '@ionic/angular';
 
-import { SqliteWebsqlOrmModule, SchemaFactory, RepositoryStore } from 'sqlite-websql-orm';
+import { SqliteWebsqlOrmModule, SchemaFactory, Manager } from 'sqlite-websql-orm';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ADAPTERS } from 'projects/sqlite-websql-orm/src/lib/Adapters/AbstractAdapter';
+import { UserRepository } from '../model/user';
 
 @NgModule({
   declarations: [
@@ -20,13 +22,15 @@ import { CommonModule } from '@angular/common';
       name: 'test-swo',
       location: 'default',
       options: {
-        adapter: 'websql'
+        adapter: ADAPTERS.auto
       }
     })
   ],
   providers: [
     Platform,
-    Events
+    Events,
+    Manager,
+    UserRepository
   ],
   bootstrap: [AppComponent]
 })
@@ -49,8 +53,8 @@ export class AppModule {
   }
 
   generateSchema() {
-    this.schema.generateSchema(RepositoryStore.getSchemaSources())
-    .then(async (db) => {
+    this.schema.generateSchema()
+    .then(async (connectionHandler) => {
       // console.log('Succeed to create the database');
       this.events.publish('create');
     }).catch(() => {

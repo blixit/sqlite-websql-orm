@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Manager } from '../Manager/Manager.service';
-import { EntityStore } from '../Store/EntityStore.service';
-import { RepositoryStore } from '../Store/RepositoryStore.service';
-import { SQLFactory } from './SQL.service';
+import { Manager            } from '../Manager/Manager.service';
+import { EntityStore        } from '../Store/EntityStore.service';
+import { RepositoryStore    } from '../Store/RepositoryStore.service';
+import { SQLFactory         } from './SQL.service';
+import { ErrorUtils, SchemaError } from '../Errors';
 
 @Injectable()
 export class SchemaFactory {
@@ -13,15 +14,22 @@ export class SchemaFactory {
         protected sqlFactory: SQLFactory
     ) { }
 
-    generateSchema(repositories: Array<any> = []): Promise<any> {
+    /**
+     * Generates the database using declared repositories
+     */
+    generateSchema(): Promise<any> {
+
+        const repositories: Array<any> = RepositoryStore.getSchemaSources();
+
         return new Promise(async (resolve, reject) => {
-            let db: any;
+            let connectionHandler: any;
 
             try {
-                db = await this.manager.connect();
+                await this.manager.getConnection();
+                connectionHandler = this.manager.getConnector().connection;
+                console.log('YO', connectionHandler);
             } catch (e) {
-                reject(e);
-                return;
+                throw new SchemaError(ErrorUtils.getMessage(e, 'Schema factory was not able to get the connection handler'));
             }
 
             const promises: Promise<any>[] = [];
@@ -29,20 +37,19 @@ export class SchemaFactory {
             repositories.forEach((repository) => {
 
                 const classToken = RepositoryStore.getClassToken(repository.name);
-                const schema = EntityStore.columnAnnotations[classToken.name];
+                const schema = EntityStore.getTableSchema(classToken.name);
 
                 const createTableSql: string = this.sqlFactory.getCreateTableSql({
                     tableName: classToken.name,
                     schema: schema,
-                    erase: false
+                    erase: this.manager.getConfiguration().options.erase
                 });
 
-                promises.push(db.executeSql(createTableSql, []));
-
+                promises.push(connectionHandler.executeSql(createTableSql, []));
             });
 
             Promise.all(promises).then(values => {
-                resolve(db);
+                resolve(connectionHandler);
             }).catch(errors => {
                 reject(errors);
             });

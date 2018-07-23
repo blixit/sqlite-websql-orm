@@ -19,4 +19,10 @@ export abstract class AbstractEntity implements EntityInterface {
      * @param __interfacename__
      */
     public __interfacename__ = 'EntityInterface';
+
+    /**
+     * Identifying field used by the worker
+     * @param __hash__
+     */
+    public __hash__: number;
 }

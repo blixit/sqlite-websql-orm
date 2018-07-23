@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntityInterface } from '../Entity/EntityInterface.interface';
 import { DeleteOption, UpdateOption, SelectOption } from './SQLQueriesInterfaces';
-import { RepositoryStore } from 'sqlite-websql-orm/public_api';
 import { EntityStore } from '../Store/EntityStore.service';
 
 @Injectable()
@@ -11,6 +10,10 @@ export class SQLFactory {
      * @property lastQuery The last query done on the server
      */
     private lastQuery: string;
+
+    getLastQuery(): string {
+        return this.lastQuery;
+    }
 
      /**
     * The function creates a SQL query that creates a table
@@ -104,9 +107,21 @@ export class SQLFactory {
         return this.lastQuery = sql;
     }
 
-    getUpdateSql(classname: string, options: UpdateOption): string {
+    getUpdateSql(classname: string, options: UpdateOption, object?: EntityInterface): string {
         // Add the SET clause
         let sql: string = 'UPDATE ' + classname;
+
+        // if updating from an entity then generates affectations dynamically
+        if (object) {
+            const schema = EntityStore.getTableSchema(classname);
+
+            for (const key in schema) {
+                if (key) {
+                    const field = schema[key].name;
+                    options.affectations.push(field + ' = ' + this.valueCorrect(object[field]));
+                }
+            }
+        }
 
         // Don't update if we have no SET field
         options.affectations = options.affectations || [];
