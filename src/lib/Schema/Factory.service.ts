@@ -27,7 +27,6 @@ export class SchemaFactory {
             try {
                 await this.manager.getConnection();
                 connectionHandler = this.manager.getConnector().connection;
-                console.log('YO', connectionHandler);
             } catch (e) {
                 throw new SchemaError(ErrorUtils.getMessage(e, 'Schema factory was not able to get the connection handler'));
             }

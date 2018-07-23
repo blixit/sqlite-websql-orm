@@ -3,5 +3,6 @@
   "dest": "../../dist/sqlite-websql-orm",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": ["angular", "rxjs", "ionic"]
 }
