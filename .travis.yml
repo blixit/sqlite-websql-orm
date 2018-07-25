@@ -21,4 +21,6 @@ install:
   - npm install 
   - npm i --save @ionic-native/core
   - npm i --save @ionic-native/sqlite
+  - npm i --save rxjs
+  - npm i --save rxjs-compact
   - npm test sqlite-websql-orm
