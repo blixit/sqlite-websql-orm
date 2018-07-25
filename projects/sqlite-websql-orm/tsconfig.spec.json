@@ -7,8 +7,8 @@
       "node"
     ],
     "paths": { 
-      "@angular/*": ["../../node_modules/@angular/*"],
-      "rxjs/*": ["../../node_modules/rxjs/*"]
+      "@angular/*": ["./node_modules/@angular/*"],
+      "rxjs/*": ["./node_modules/rxjs/*"]
     }
   },
   "files": [
