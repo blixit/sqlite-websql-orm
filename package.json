@@ -50,5 +50,12 @@
     "tslib": "^1.7.1",
     "tslint": "~5.9.1",
     "typescript": "~2.7.2"
+  },
+  "bugs": {
+    "url": "https://github.com/blixit/sqlite-websql-orm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blixit/sqlite-websql-orm.git"
   }
 }
