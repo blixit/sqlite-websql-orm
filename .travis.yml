@@ -6,8 +6,7 @@ node_js:
 
 cache:
   yarn: true
-  directories:
-     - ./node_modules
+  directories: 
      - ./.chrome/chromium
      - ./aio/node_modules
 
@@ -22,4 +21,5 @@ install:
   - npm i --save @ionic-native/core
   - npm i --save @ionic-native/sqlite
   - npm i --save rxjs
+  - npm i --save rxjs-compat
   - npm test sqlite-websql-orm
