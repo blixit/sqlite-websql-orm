@@ -9,7 +9,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "author": "Blixit<alain.ngangoue@gmail.com>",
+  "license": "ISC",
+  "preferGlobal": true,
+  "private": false,
   "dependencies": {
     "@angular/common": "^6.0.3",
     "@angular/core": "^6.0.3",
@@ -48,5 +51,12 @@
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1"
-  }
+  },
+  "keywords": [
+    "orm",
+    "angular",
+    "ionic",
+    "websql",
+    "sqlite"
+  ]
 }
