@@ -6,7 +6,7 @@ An orm for both sqlite and websql usable in Angular 2+ and Ionic 2+.
 ## [1. Installation]() 
 
 ```
-npm i sqlite-websql-orm
+npm i sqlite-websql-orm@0.2.2
 ``` 
 
 :construction: This package is being updated to be compatible with angular 6. By the way many optimisations are done to improve the conceptual idea.
@@ -22,14 +22,18 @@ npm i sqlite-websql-orm
 
 
 - use versions above the 1.0.0
+- version 1.0.8 is now stable only for the websql adapter
 - the approach has been completely changed. Now you have different connectors (adapter) for each database (sqlite or websql). Using this approach, implementing IndexDb will be really easy
 - the websql connector can be test
 - the public API didn't change from 0.2.2 to 1.0.3
 
 
-## [2. Usage](docs/usage.md)
+:warning: You will probably need to install manually some peer dependencies.
 
-You can access the usage documentation here [docs/usage.md](docs/usage.md). 
+## [2. Usage & API](docs/usage.md)
+
+- You can access the usage documentation here [docs/usage.md](docs/usage.md). 
+- The Api is also available here [docs/api.md](docs/api.md)
 
 ## [3. Known issues](docs/issues.md)
 

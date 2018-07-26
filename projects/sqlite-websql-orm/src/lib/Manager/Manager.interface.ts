@@ -16,9 +16,10 @@ export interface ManagerInterface {
     remove(entityInstance: EntityInterface): ManagerInterface;
     removeAll(constructorObject: Type<any>): ManagerInterface;
     flush(entityInstance?: EntityInterface);
+
     getConfiguration(): ConfigurationInterface;
     setConfiguration(configuration: ConfigurationInterface): ManagerInterface;
-
+    getAdapter(): string;
 
 }
 

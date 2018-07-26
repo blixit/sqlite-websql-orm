@@ -4,7 +4,8 @@ import { EntityStore } from '../Store/EntityStore.service';
  * The Column annotation allows to decorate a class field to describe the column property
  *
  * @param type The SQL type of the field
- * @param name The table field to override the default class property
+ * @param name The table field to override the default class property.
+ * If omitted, the class property will be used
  */
 export function Column (type: string, name: string = null): any {
     return function (target, propertyKey: string, descriptor: PropertyDescriptor): any {

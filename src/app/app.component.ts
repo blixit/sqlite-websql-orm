@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     const c = await this.manager.getConnection();
     this.user.id = 4;
     this.user.name = 'coco';
-    this.manager.removeAll(User);
+    this.manager.merge(this.user);
     // this.manager.persist(this.user);
 
     // this.testRepository().then(async() => {

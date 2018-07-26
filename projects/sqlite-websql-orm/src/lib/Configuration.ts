@@ -40,17 +40,17 @@ export interface ConfigurationOption {
 }
 
 export interface ConfigurationInterface extends SQLiteDatabaseConfig {
-    // /**
-    //  * A name for your database. For instance, 'mydatabase'
-    //  * @param name
-    //  */
-    // name: string;
+    /**
+     * A name for your database. For instance, 'mydatabase'
+     * @param name
+     */
+    name: string;
 
-    // /**
-    //  * A file name for your database location. The default value is 'default'
-    //  * @param location
-    //  */
-    // location: string; // 'default';
+    /**
+     * A file name for your database location. The default value is 'default'
+     * @param location
+     */
+    location: string; // 'default';
 
     /**
      * Options to customize your project

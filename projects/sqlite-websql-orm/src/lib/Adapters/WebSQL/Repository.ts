@@ -44,7 +44,10 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
         });
     }
 
-
+    /**
+     * Select results
+     * @param options
+     */
     async select(options?: SelectOption): Promise<EntityInterface[]> {
         const sql: string = this.getSqlService().getSelectSql(this.getClassToken().name, options);
         const jointures: Array<any> = this.getJointures();
@@ -77,6 +80,11 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
         });
     }
 
+    /**
+     * Insert data
+     * @param object
+     * @param options
+     */
     async insert(object: EntityInterface, options?: InsertOption): Promise<EntityInterface> {
         const sql = this.getSqlService().getInsertSql(this.getClassToken().name, object);
 
@@ -104,11 +112,14 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 const t = this.manager.getConnector().connection;
                 t.executeSql(sql, []).then(successCallback).catch(errorCallback);
             }
-
         });
     }
 
-
+    /**
+     * Update
+     * @param arg
+     * @param options
+     */
     async update(arg: EntityInterface|UpdateOption): Promise<boolean>;
     async update(arg: EntityInterface, options: UpdateOption): Promise<boolean>;
     async update(arg: EntityInterface|UpdateOption, options?: UpdateOption): Promise<boolean> {
@@ -173,7 +184,11 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
         });
     }
 
-
+    /**
+     * Delete data
+     * @param entity
+     * @param options
+     */
     async delete(entity?: EntityInterface, options?: DeleteOption): Promise<boolean> {
         const sql = this.getSqlService().getDeleteSql(this.getClassToken().name, entity, options);
 
@@ -203,5 +218,4 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
             }
         });
     }
-
 }

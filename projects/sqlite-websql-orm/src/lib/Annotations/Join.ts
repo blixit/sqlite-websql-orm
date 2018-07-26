@@ -1,8 +1,19 @@
 import { EntityStore } from '../Store/EntityStore.service';
 
 export interface JoinOptionsInterface {
+    /**
+     * @property The class name that will be joined
+     */
     class: string;
+
+    /**
+     * @property The field in the joined class that maps the current field
+     */
     field?: string;
+
+    /**
+     * @property Getter function to get lazyloaded joined field
+     */
     getter: string;
 }
 

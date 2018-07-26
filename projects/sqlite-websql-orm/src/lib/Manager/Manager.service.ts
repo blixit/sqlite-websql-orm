@@ -1,4 +1,3 @@
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Injectable, Type } from '@angular/core';
 
 import { ManagerInterface, TaskInterface } from './Manager.interface';
@@ -34,10 +33,17 @@ export class Manager implements ManagerInterface {
     Manager.worker = Manager.worker || new SwoWorker();
   }
 
+  /**
+   * Retrieve the connector
+   */
   getConnector(): ConnectorInterface {
     return Manager.connector;
   }
 
+  /**
+   * Set the connector
+   * @param connector
+   */
   setConnector(connector: ConnectorInterface) {
     Manager.connector = connector;
   }
@@ -93,11 +99,18 @@ export class Manager implements ManagerInterface {
     }
   }
 
+  /**
+   * Resets the connection and the worker
+   */
   reset() {
     Manager.connector = null;
     Manager.worker = null;
   }
 
+  /**
+   * Set configuration
+   * @param configuration
+   */
   setConfiguration(configuration: ConfigurationInterface): ManagerInterface {
     this.configuration = configuration;
 
@@ -106,14 +119,24 @@ export class Manager implements ManagerInterface {
     return this;
   }
 
+  /**
+   * Get configuration
+   */
   getConfiguration(): ConfigurationInterface {
     return this.configuration;
   }
 
+  /**
+   * Returns the current adapter
+   */
   getAdapter(): string {
     return this.currentAdapter;
   }
 
+  /**
+   * Add an obect to the queue for save
+   * @param entityInstance
+   */
   persist(entityInstance: EntityInterface): ManagerInterface {
 
     Manager.worker.addTask(entityInstance, 'persist');
@@ -121,6 +144,10 @@ export class Manager implements ManagerInterface {
     return this;
   }
 
+  /**
+   * Add an obect to the queue for update
+   * @param entityInstance
+   */
   merge(entityInstance: EntityInterface): ManagerInterface {
 
     Manager.worker.addTask(entityInstance, 'merge');
@@ -128,6 +155,10 @@ export class Manager implements ManagerInterface {
     return this;
   }
 
+  /**
+   * Add an obect to the queue for remove
+   * @param entityInstance
+   */
   remove(entityInstance: EntityInterface): ManagerInterface {
 
     Manager.worker.addTask(entityInstance, 'remove');
@@ -135,6 +166,10 @@ export class Manager implements ManagerInterface {
     return this;
   }
 
+  /**
+   * Add to the queue a request to remove a whole table
+   * @param constructorObject
+   */
   removeAll(constructorObject: Type<any>): ManagerInterface {
     const entityInstance = new constructorObject();
 
@@ -143,22 +178,8 @@ export class Manager implements ManagerInterface {
     return this;
   }
 
-  // private transaction(db, callback) {
-  //   switch (db.constructor.name) {
-  //     case 'SQLiteObject' :
-  //       db.transaction(callback);
-  //     break;
-  //     case 'WebSQLAdapter' :
-  //       db.transaction(callback);
-  //     break;
-  //     default:
-  //       throw new ManagerError('The transaction object used doesn\'t define any method \'transaction\'');
-  //   }
-  // }
-
-
   /**
-   * Asynchrone flush
+   * Asynchrone flush. Executes all the operations saved into the queue
    * @param entityInstance EntityInterface
    */
   async flush(entityInstance: EntityInterface = null) {
@@ -227,8 +248,6 @@ export class Manager implements ManagerInterface {
             break;
             default: break;
           }
-
-          // repositoryInstance.forget();
         });
 
         if (promises.length > 0) {
@@ -242,33 +261,8 @@ export class Manager implements ManagerInterface {
             // get real promise objects
             const realPromises = promises.map(q => q.promise);
 
+            // when promises are handled, then reset the queue
             Promise.all(realPromises).then(values => {
-              values.forEach((value, i) => {
-                if (currentTaskQueue[i] == null) {
-                  return ;
-                }
-                switch (currentTaskQueue[i]['type']) {
-                  case 'persist':
-                  // you have to modify field one by one or you will lose object reference
-                    // for (const p in value) {
-                    //   if (p) {
-                    //     currentTaskQueue[i].entity[p] = value[p];
-                    //   }
-                    // }
-                  break;
-                  case 'merge':
-                  // you have to modify field one by one or you will lose object reference
-                    // for (const p in value) {
-                    //   if (p) {
-                    //     currentTaskQueue[i].entity[p] = value[p];
-                    //   }
-                    // }
-                  break;
-                  case 'remove':
-                  // currentTaskQueue[i].entity.id = null;
-                  break;
-                }
-              });
               Manager.worker.resetQueue(taskSetId) ;
               resolve(values);
             }).catch(errors => {
