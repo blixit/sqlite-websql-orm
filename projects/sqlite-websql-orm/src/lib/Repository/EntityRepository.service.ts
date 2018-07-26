@@ -13,7 +13,6 @@ import { RepositoryStore      } from '../Store/RepositoryStore.service';
 
 import { RepositoryError } from '../Errors';
 import { ADAPTERS } from '../Adapters/AbstractAdapter';
-import { StaticEntityRepository } from './StaticEntityRepository';
 
 import { Repository as SQLiteRepository } from '../Adapters/SQLite/Repository';
 import { Repository as WebSqlRepository } from '../Adapters/WebSQL/Repository';
@@ -63,23 +62,34 @@ export class EntityRepository implements RepositoryInterface {
     .then((connection) => {
       this.connection = connection;
 
-      switch (this.manager.getAdapter()) {
-        case ADAPTERS.sqlite : {
-          this.internalRepository = new SQLiteRepository(this.manager);
-        } break;
-        case ADAPTERS.websql : {
-          this.internalRepository = new WebSqlRepository(this.manager);
-        } break;
-        default: {
-          throw new RepositoryError('The entity repository requires an explicit adapter to load internal repository');
-        }
-      }
+      this.getInternalRepository();
 
-      this.internalRepository.setParent(this);
     })
     .catch(error => {
       throw new RepositoryError(error.message || 'Connection failed');
     });
+  }
+
+  private getInternalRepository() {
+    if (this.internalRepository) {
+      return this.internalRepository;
+    }
+
+    switch (this.manager.getAdapter()) {
+      case ADAPTERS.sqlite : {
+        this.internalRepository = new SQLiteRepository(this.manager);
+      } break;
+      case ADAPTERS.websql : {
+        this.internalRepository = new WebSqlRepository(this.manager);
+      } break;
+      default: {
+        throw new RepositoryError('The entity repository requires an explicit adapter to load internal repository');
+      }
+    }
+
+    this.internalRepository.setParent(this);
+
+    return this.internalRepository;
   }
 
   getManager(): Manager {
@@ -162,8 +172,8 @@ export class EntityRepository implements RepositoryInterface {
   // SELECT
   // ----------------------------------------------------------------------------------
 
-  async select(options: SelectOption): Promise<EntityInterface[]> {
-    const repository = this.internalRepository;
+  select(options: SelectOption): Promise<EntityInterface[]> {
+    const repository = this.getInternalRepository();
 
     return repository.select(options);
   }
@@ -171,8 +181,12 @@ export class EntityRepository implements RepositoryInterface {
   // ----------------------------------------------------------------------------------
   // INSERT
   // ----------------------------------------------------------------------------------
-  async insert(object: EntityInterface, options: InsertOption = {}): Promise<EntityInterface> {
-    const repository = this.internalRepository;
+  insert(object: EntityInterface, options: InsertOption = {}): Promise<EntityInterface> {
+    const repository = this.getInternalRepository();
+
+    if (! repository) {
+      throw new RepositoryError('not found repository object');
+    }
 
     return repository.insert(object, options);
 
@@ -183,7 +197,7 @@ export class EntityRepository implements RepositoryInterface {
   // ----------------------------------------------------------------------------------
 
   update(arg: EntityInterface, options?: UpdateOption): Promise<boolean> {
-    const repository = this.internalRepository;
+    const repository = this.getInternalRepository();
 
     return repository.update(arg, options);
   }
@@ -194,8 +208,7 @@ export class EntityRepository implements RepositoryInterface {
   // DELETE
   // ----------------------------------------------------------------------------------
   delete(entity?: EntityInterface, options?: DeleteOption): Promise<boolean> {
-
-    const repository = this.internalRepository;
+    const repository = this.getInternalRepository();
 
     return repository.delete(entity, options);
   }

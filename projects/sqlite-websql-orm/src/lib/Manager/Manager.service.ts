@@ -51,7 +51,6 @@ export class Manager implements ManagerInterface {
     }
 
     const adapter = this.getConfiguration().options.adapter;
-    console.log('ADAPTER', adapter);
 
     switch (adapter) {
       case ADAPTERS.sqlite: {

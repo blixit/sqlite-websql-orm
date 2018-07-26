@@ -26,7 +26,10 @@
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.2",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "@ionic-native/sqlite": "^4.10.0",
+    "@ionic/angular": "^4.0.0-alpha.11",
+    "sqlite-websql-orm": "file:dist/sqlite-websql-orm"
   },
   "devDependencies": {
     "@angular/compiler-cli": "^6.0.3",

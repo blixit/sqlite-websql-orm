@@ -34,7 +34,7 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
     }
 
 
-    select(options?: SelectOption): Promise<EntityInterface[]> {
+    async select(options?: SelectOption): Promise<EntityInterface[]> {
         const sql: string = this.getSqlService().getSelectSql(this.getClassToken().name, options);
         const jointures: Array<any> = this.getJointures();
 
@@ -53,39 +53,51 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 reject(e);
             };
 
-            const t = options.transactionObject || this.manager.getConnector().connection;
-            t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            if (options.transactionObject) {
+                options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
+            } else {
+                const t = this.manager.getConnector().connection;
+                t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            }
         });
     }
 
-    insert(object: EntityInterface, options?: InsertOption): Promise<EntityInterface> {
+    async insert(object: EntityInterface, options?: InsertOption): Promise<EntityInterface> {
         const sql = this.getSqlService().getInsertSql(this.getClassToken().name, object);
 
         return new Promise<EntityInterface>((resolve, reject) => {
 
             // define callbacks
-            const successCallback = (res) => {
-                StaticEntityRepository.mapResultsForInsert(object, res, this, resolve, reject, options);
+            const successCallback = (res, tx) => {
+                if (options.transactionObject) {
+                    StaticEntityRepository.mapResultsForInsert(object, tx, this, resolve, reject, options);
+                } else {
+                    StaticEntityRepository.mapResultsForInsert(object, res, this, resolve, reject, options);
+                }
             };
             const errorCallback = (e) => {
                 reject(e);
             };
 
-            const t = options.transactionObject || this.manager.getConnector().connection;
-            t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            if (options.transactionObject) {
+                options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
+            } else {
+                const t = this.manager.getConnector().connection;
+                t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            }
 
         });
     }
 
 
-    update(arg: EntityInterface|UpdateOption): Promise<boolean>;
-    update(arg: EntityInterface, options: UpdateOption): Promise<boolean>;
-    update(arg: EntityInterface|UpdateOption, options?: UpdateOption): Promise<boolean> {
+    async update(arg: EntityInterface|UpdateOption): Promise<boolean>;
+    async update(arg: EntityInterface, options: UpdateOption): Promise<boolean>;
+    async update(arg: EntityInterface|UpdateOption, options?: UpdateOption): Promise<boolean> {
 
         let sql: string;
         let argIsEntity = false;
 
-        if ( arguments.length === 1) {
+        if ( ! options) {
             if (arg['__interfacename__'] && arg['__interfacename__'] === 'EntityInterface') {
                 // arg == entity: EntityInterface
                 argIsEntity = true;
@@ -105,7 +117,7 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 // arg == options: UpdateOption
                 sql = this.getSqlService().getUpdateSql(this.getClassToken().name, <UpdateOption>arg);
             }
-        } else if ( arguments.length === 2) {
+        } else {
             options.id = arg.id; // avoid human errors by preventing to update an object with another id
             sql = this.getSqlService().getUpdateSql(this.getClassToken().name, options, <EntityInterface>arg);
         }
@@ -114,9 +126,13 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
         return new Promise<boolean>((resolve, reject) => {
 
             // define callbacks
-            const successCallback = (res) => {
+            const successCallback = (res, tx) => {
                 if (argIsEntity) {
-                    StaticEntityRepository.mapResultsForUpdate(<EntityInterface>arg, res, this, resolve, reject, {});
+                    if (options.transactionObject) {
+                        StaticEntityRepository.mapResultsForUpdate(<EntityInterface>arg, tx, this, resolve, reject, {});
+                    } else {
+                        StaticEntityRepository.mapResultsForUpdate(<EntityInterface>arg, res, this, resolve, reject, {});
+                    }
                 }
 
                 resolve(true);
@@ -125,8 +141,12 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 reject(e);
             };
 
-            const t = options.transactionObject || this.manager.getConnector().connection;
-            t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            if (options.transactionObject) {
+                options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
+            } else {
+                const t = this.manager.getConnector().connection;
+                t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            }
         });
     }
 
@@ -136,7 +156,7 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
 
         return new Promise<boolean>((resolve, reject) => {
             // define callbacks
-            const successCallback = (resultSet) => {
+            const successCallback = (res, tx) => {
                 // remove id
                 if (entity) {
                     entity.id = null;
@@ -148,8 +168,12 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 reject(e);
             };
 
-            const t = options.transactionObject || this.manager.getConnector().connection;
-            t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            if (options.transactionObject) {
+                options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
+            } else {
+                const t = this.manager.getConnector().connection;
+                t.executeSql(sql, []).then(successCallback).catch(errorCallback);
+            }
         });
     }
 
