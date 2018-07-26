@@ -19,6 +19,17 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
   // SELECT
   // ----------------------------------------------------------------------------------
 
+  /**
+   * @warning
+   * TODO: add a ttl option to the function 'executeSelectJoin' to let it know how to decremente it in order
+   * to avoid cycle references while lazyloading
+   *
+   * @param object
+   * @param joinField
+   * @param join
+   * @param item
+   * @param jointures
+   */
     executeSelectJoin(object, joinField, join, item, jointures): Promise<EntityInterface[]> {
         return this.parentRepository.getRepositories()[join]
         .select({
@@ -49,13 +60,17 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                     this.parentRepository.getRepositories()
                 ));
             };
-            const errorCallback = (e) => {
-                reject(e);
+            const errorCallback = (e, e2) => {
+                if (options.transactionObject) {
+                    reject(e2);
+                } else {
+                    reject(e);
+                }
             };
 
-            if (options.transactionObject) {
+            if (options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
-            } else {
+            } else { // call from the repository
                 const t = this.manager.getConnector().connection;
                 t.executeSql(sql, []).then(successCallback).catch(errorCallback);
             }
@@ -75,13 +90,17 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                     StaticEntityRepository.mapResultsForInsert(object, res, this, resolve, reject, options);
                 }
             };
-            const errorCallback = (e) => {
-                reject(e);
+            const errorCallback = (e, e2) => {
+                if (options.transactionObject) {
+                    reject(e2);
+                } else {
+                    reject(e);
+                }
             };
 
-            if (options.transactionObject) {
+            if (options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
-            } else {
+            } else {// call from the repository
                 const t = this.manager.getConnector().connection;
                 t.executeSql(sql, []).then(successCallback).catch(errorCallback);
             }
@@ -137,13 +156,17 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
 
                 resolve(true);
             };
-            const errorCallback = (e) => {
-                reject(e);
+            const errorCallback = (e, e2) => {
+                if (options.transactionObject) {
+                    reject(e2);
+                } else {
+                    reject(e);
+                }
             };
 
-            if (options.transactionObject) {
+            if (options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
-            } else {
+            } else {// call from the repository
                 const t = this.manager.getConnector().connection;
                 t.executeSql(sql, []).then(successCallback).catch(errorCallback);
             }
@@ -164,13 +187,17 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
 
                 resolve(true);
             };
-            const errorCallback = (e) => {
-                reject(e);
+            const errorCallback = (e, e2) => {
+                if (options.transactionObject) {
+                    reject(e2);
+                } else {
+                    reject(e);
+                }
             };
 
-            if (options.transactionObject) {
+            if (options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
-            } else {
+            } else {// call from the repository
                 const t = this.manager.getConnector().connection;
                 t.executeSql(sql, []).then(successCallback).catch(errorCallback);
             }

@@ -20,15 +20,18 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     const c = await this.manager.getConnection();
+    this.user.id = 4;
+    this.user.name = 'coco';
+    this.manager.removeAll(User);
+    // this.manager.persist(this.user);
 
-    this.manager.persist(this.user);
-    this.manager.persist(this.user);
-    this.manager.flush().then((object: User) => {
-      console.log('FLUSHED');
-    });
-
-    // this.testRepository().then(() => {
-
+    // this.testRepository().then(async() => {
+      try {
+        await this.manager.flush();
+        console.log('FLUSHED');
+      } catch (error) {
+        console.log('FLUSHED error', error);
+      }
     // });
 
   }

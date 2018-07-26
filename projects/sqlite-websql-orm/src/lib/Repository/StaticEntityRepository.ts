@@ -9,6 +9,14 @@ import { RepositoryInterface } from './RepositoryInterface.interface';
  */
 export class StaticEntityRepository {
 
+    /**
+     * Lazy loads joined fields
+     * @param res
+     * @param repository
+     * @param jointures
+     * @param manager
+     * @param repositories
+     */
     static async mapResultsForSelect(
         res: any,
         repository: ObjectRepositoryInterface | RepositoryInterface,
@@ -53,7 +61,16 @@ export class StaticEntityRepository {
         return data;
     }
 
-
+    /**
+     * Handle the database insert query.
+     * On success the object is updated
+     * @param object
+     * @param res
+     * @param repository
+     * @param resolve
+     * @param reject
+     * @param options
+     */
     static mapResultsForInsert(
         object: EntityInterface,
         res: any,
@@ -63,25 +80,24 @@ export class StaticEntityRepository {
         options: any = {}
     ) {
         if (res.insertId && res.rowsAffected > 0) {
-            repository.find(res.insertId).then(entity => {
-                entity.__hash__ = options.hash || '';
-                for (const p in entity) {
-                    if (p) {
-                        object[p] = entity[p];
-                    }
-                }
-                resolve(entity);
-            }).catch(error => {
-                reject(error);
-            });
+            StaticEntityRepository.updateObject(object, res, repository, resolve, reject, options);
         } else {
             reject({
-                message: 'mapResultsForInsert failed'
+                message: 'Internal Error : mapResultsForInsert failed'
             });
         }
     }
 
-
+    /**
+     * Handle the database update query.
+     * On success the object is updated
+     * @param object
+     * @param res
+     * @param repository
+     * @param resolve
+     * @param reject
+     * @param options
+     */
     static mapResultsForUpdate(
         object: EntityInterface,
         res: any,
@@ -90,13 +106,49 @@ export class StaticEntityRepository {
         reject,
         options: any = {}
     ) {
-        if (res.rowsAffected > 0) {
-            resolve(true);
-
+        if (res.rowsAffected >= 0) {
+            if (object) {
+                StaticEntityRepository.updateObject(object, res, repository, resolve, reject, options);
+            } else {
+                resolve(true);
+            }
         } else {
             reject({
-                message: 'mapResultsForUpdate failed'
+                message: 'Internal Error : mapResultsForUpdate failed'
             });
         }
+    }
+
+    /**
+     * Update the given object. Since this function calls the 'find' method, then the lazyload will occurs.
+     * TODO: add a ttl option to the function 'executeSelectJoin' to let it know how to decremente it in order
+     * to avoid cycle references while lazyloading
+     *
+     * @param object
+     * @param res
+     * @param repository
+     * @param resolve
+     * @param reject
+     * @param options
+     */
+    static updateObject(
+        object: EntityInterface,
+        res: any,
+        repository: ObjectRepositoryInterface,
+        resolve,
+        reject,
+        options: any = {}
+    ) {
+        repository.find(res.insertId).then(entity => {
+            entity.__hash__ = options.hash || '';
+            for (const p in entity) {
+                if (p) {
+                    object[p] = entity[p];
+                }
+            }
+            resolve(entity);
+        }).catch(error => {
+            reject(error);
+        });
     }
 }

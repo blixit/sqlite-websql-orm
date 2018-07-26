@@ -1,6 +1,6 @@
 {
   "name": "sqlite-websql-orm",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "Blixit<alain.ngangoue@gmail.com>",
   "license": "ISC",
   "preferGlobal": true,
