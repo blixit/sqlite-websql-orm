@@ -1,6 +1,6 @@
 {
   "name": "sqlite-websql-orm",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "author": "Blixit<alain.ngangoue@gmail.com>",
   "license": "ISC",
   "preferGlobal": true,
@@ -18,5 +18,12 @@
     "ionic",
     "websql",
     "sqlite"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/blixit/sqlite-websql-orm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blixit/sqlite-websql-orm.git"
+  }
 }
