@@ -20,19 +20,19 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     const c = await this.manager.getConnection();
-    this.user.id = 4;
+    // this.user.id = 5;
     this.user.name = 'coco';
     this.manager.merge(this.user);
     // this.manager.persist(this.user);
 
-    // this.testRepository().then(async() => {
-      try {
-        await this.manager.flush();
+    this.testRepository().then(async() => {
+      // try {
+      //   await this.manager.flush();
         console.log('FLUSHED');
-      } catch (error) {
-        console.log('FLUSHED error', error);
-      }
-    // });
+      // } catch (error) {
+      //   console.log('FLUSHED error', error);
+      // }
+    });
 
   }
 
@@ -44,15 +44,19 @@ export class AppComponent implements OnInit {
 
       this.userRepository.select({}).then(selected => {
         console.log('DATA select', selected);
-        selected[0].id = 1;
-        this.userRepository.update(selected[0]).then(updated => {
+        // selected[0].id = 1;
+        this.userRepository.update(selected[0], {
+          affectations: [ 'id=4', 'name = "yop"' ]
+        }).then(updated => {
           console.log('DATA update', updated);
+          console.log('SQL ', this.userRepository.getSqlService().getLastQuery());
           this.userRepository.delete(selected[0]).then((deleted) => {
             console.log('DATA delete', deleted);
           });
         })
         .catch(error => {
           console.log('Error update', error);
+          console.log('SQL ', this.userRepository.getSqlService().getLastQuery());
         });
       })
       .catch(error => {
@@ -61,6 +65,7 @@ export class AppComponent implements OnInit {
     })
     .catch(error => {
       console.log('Error insert', error);
+      console.log('SQL ', this.userRepository.getSqlService().getLastQuery());
     });
 
     // this.manager.flush().then(() => {

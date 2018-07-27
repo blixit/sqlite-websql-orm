@@ -18,6 +18,7 @@ For SQL types look at the Schema section.
 | options: **JoinOptionsInterface** | The Join annotation allows to decorate a class field to describe how it is joined to another class |
 
 **JoinOptionsInterface**
+
 | Parameter | Description |
 | --- | --- |
 | class: **string** | The class name that will be joined |
@@ -33,6 +34,7 @@ For SQL types look at the Schema section.
 # Configuration
 
 **ConfigurationInterface**
+
 | Parameter | Description |
 | --- | --- |
 | name: **string** | A name for your database. For instance, 'mydatabase' |
@@ -40,6 +42,7 @@ For SQL types look at the Schema section.
 | options: **ConfigurationOption** | Options to customize your project |
 
 **ConfigurationOption**
+
 | Parameter | Description |
 | --- | --- |
 | adapter?: string | The adapter to use. Sqlite or WebSql |
@@ -52,6 +55,7 @@ For SQL types look at the Schema section.
 # Entity
 
 **EntityInterface**
+
 | Parameter | Description |
 | --- | --- |
 | id: number | The default id field for each entity |

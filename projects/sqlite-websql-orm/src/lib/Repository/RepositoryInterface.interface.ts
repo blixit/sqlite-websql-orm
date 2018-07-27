@@ -13,8 +13,6 @@ export interface RepositoryInterface {
 
   mapArrayToObject(array: any): EntityInterface;
 
-  crud(type: string, arg: UpdateOption|EntityInterface, options: any, transaction: any): Promise<any> ;
-
   getSchema(): Array<any>;
 
   getJointures(): Array<any>;

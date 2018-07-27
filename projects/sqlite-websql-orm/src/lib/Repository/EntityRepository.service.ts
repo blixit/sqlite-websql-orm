@@ -137,38 +137,6 @@ export class EntityRepository implements RepositoryInterface {
   }
 
   // ----------------------------------------------------------------------------------
-  // TRANSACTION
-  // ----------------------------------------------------------------------------------
-  crud(type: string, arg: UpdateOption|EntityInterface, options: any, transaction: any): Promise<any> {
-
-    // this.sqlTransactionObject = transaction;
-    // switch (type) {
-    //   case 'insert': {
-    //     return this.insert(<EntityInterface>arg, options);
-    //   } break;
-    //   case 'update': {
-    //     return this.update(arg);
-    //   } break;
-    //   case 'delete': {
-    //     return this.delete(<EntityInterface>arg || null);
-    //   } break;
-    //   default : {
-
-    //   } break;
-    // }
-    return ;
-  }
-
-  forget() {
-    this.sqlTransactionObject = null;
-    return this;
-  }
-
-  private getTransaction() {
-    return (this.sqlTransactionObject != null) ? this.sqlTransactionObject : this.connection.transaction;
-  }
-
-  // ----------------------------------------------------------------------------------
   // SELECT
   // ----------------------------------------------------------------------------------
 

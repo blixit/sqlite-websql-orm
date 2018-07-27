@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { EntityInterface } from '../Entity/EntityInterface.interface';
 import { DeleteOption, UpdateOption, SelectOption } from './SQLQueriesInterfaces';
 import { EntityStore } from '../Store/EntityStore.service';
+import { SQLInjector } from './SQLInjector';
+import { Type } from './Type';
 
 @Injectable()
 export class SQLFactory {
@@ -94,19 +96,22 @@ export class SQLFactory {
         const schema = EntityStore.getTableSchema(classname);
 
         const fieldsArray: Array<string> = [];
-        const valuesArray: Array<string> = [];
+        const valuesArray: Array<{value: any, type: string}> = [];
 
         for ( const key in schema ) {
           if (key) {
             const field = schema[key].name;
             fieldsArray.push(field);
-            valuesArray.push(object[field]);
+            valuesArray.push({
+                value: object[field],
+                type: schema[key].type
+            });
           }
         }
 
         if (fieldsArray.length > 0) {
           sql += ' (' + fieldsArray.join(', ')  + ') ' ;
-          sql += ' VALUES (' + valuesArray.map(item => this.valueCorrect(item)).join(', ')  + ')' ;
+          sql += ' VALUES (' + valuesArray.map(item => SQLInjector.getInjectedValue(item.value, item.type)).join(', ')  + ')' ;
         }
         return this.lastQuery = sql;
     }
@@ -125,7 +130,7 @@ export class SQLFactory {
             for (const key in schema) {
                 if (key) {
                     const field = schema[key].name;
-                    options.affectations.push(field + ' = ' + this.valueCorrect(object[field]));
+                    options.affectations.push(field + ' = ' + SQLInjector.getInjectedValue(object[field], schema[key].type));
                 }
             }
         }
@@ -148,6 +153,11 @@ export class SQLFactory {
             sql += ' SET ' + affectationsArray.join(', ') ;
         }
 
+        // if an id is set then only an object should be modified
+        if (options.id) {
+            options.conditions = options.conditions || [];
+            options.conditions.push(SQLInjector.setAffectation('id', options.id, Type.INTEGER));
+        }
         // Add the WHERE clause if conditions exist
         sql += this.buildSqlWhereClause(options.conditions);
 
@@ -172,32 +182,32 @@ export class SQLFactory {
         return this.lastQuery = sql;
     }
 
-    /**
-    * TODO: improve by Alexis
-    */
-    private valueCorrect(value: any) {
+    // /**
+    // * TODO: improve by Alexis, use schema to get the type targetted
+    // */
+    // private valueCorrect(value: any) {
 
-        if (value === null || value === undefined) {
-            return 'NULL';
-        }
+    //     if (value === null || value === undefined) {
+    //         return 'NULL';
+    //     }
 
-        if (typeof(value) === 'boolean') {
-            return value ? 1 : 0;
-        }
+    //     if (typeof(value) === 'boolean') {
+    //         return value ? 1 : 0;
+    //     }
 
-        if (value.constructor) {
-            if (value.constructor.name.toLowerCase() === 'date') {
-                return '"' + value.getMilliseconds() + '"';
-            }
-        }
+    //     if (value.constructor) {
+    //         if (value.constructor.name.toLowerCase() === 'date') {
+    //             return '"' + value.getMilliseconds() + '"';
+    //         }
+    //     }
 
-        let correctValue: any = parseFloat(value);
-        if ( isNaN(correctValue) ) {
-            correctValue = '"' + value + '"';
-        }
+    //     let correctValue: any = parseFloat(value);
+    //     if ( isNaN(correctValue) ) {
+    //         correctValue = '"' + value + '"';
+    //     }
 
-        return correctValue;
-    }
+    //     return correctValue;
+    // }
 
     /**
      * Build the 'WHERE' clause into the SQL request

@@ -71,7 +71,7 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 }
             };
 
-            if (options.transactionObject) { // call from the manager
+            if (options && options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
             } else { // call from the repository
                 const t = this.manager.getConnector().connection;
@@ -106,7 +106,7 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 }
             };
 
-            if (options.transactionObject) { // call from the manager
+            if (options && options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
             } else {// call from the repository
                 const t = this.manager.getConnector().connection;
@@ -175,7 +175,7 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 }
             };
 
-            if (options.transactionObject) { // call from the manager
+            if (options && options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
             } else {// call from the repository
                 const t = this.manager.getConnector().connection;
@@ -210,7 +210,7 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
                 }
             };
 
-            if (options.transactionObject) { // call from the manager
+            if (options && options.transactionObject) { // call from the manager
                 options.transactionObject.executeSql(sql, [], successCallback, errorCallback);
             } else {// call from the repository
                 const t = this.manager.getConnector().connection;
