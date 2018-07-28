@@ -19,31 +19,6 @@ export class Repository extends AbstractRepository implements AdapterRepositoryI
   // SELECT
   // ----------------------------------------------------------------------------------
 
-  /**
-   * @warning
-   * TODO: add a ttl option to the function 'executeSelectJoin' to let it know how to decremente it in order
-   * to avoid cycle references while lazyloading
-   *
-   * @param object
-   * @param joinField
-   * @param join
-   * @param item
-   * @param jointures
-   */
-    executeSelectJoin(object, joinField, join, item, jointures): Promise<EntityInterface[]> {
-        return this.parentRepository.getRepositories()[join]
-        .select({
-            conditions: [jointures[join].field + '= \'' + item[join] + '\'']
-        })
-        .then(data => {
-            object[joinField] = data.length > 0 ? data[0] : null;
-            return object;
-        })
-        .catch(error => {
-            object[joinField] = null;
-        });
-    }
-
     /**
      * Select results
      * @param options

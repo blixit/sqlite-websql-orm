@@ -40,3 +40,4 @@ export * from './lib/Store/EntityStore.service';
 export * from './lib/Store/RepositoryStore.service';
 
 export * from './lib/Schema/SQLQueriesInterfaces';
+export * from './lib/Schema/Type';

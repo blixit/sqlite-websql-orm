@@ -1,7 +1,6 @@
 import { EntityInterface } from '../Entity/EntityInterface.interface';
 import { UpdateOption, SelectOption, DeleteOption, InsertOption } from '../Schema/SQLQueriesInterfaces';
 import { Type } from '@angular/core';
-import { ObjectRepositoryInterface } from './ObjectRepositoryInterface';
 import { SQLFactory } from '../Schema/SQL.service';
 
 export interface RepositoryInterface {

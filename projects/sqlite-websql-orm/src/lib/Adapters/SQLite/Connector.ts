@@ -20,20 +20,18 @@ export class Connector implements ConnectorInterface {
     public connection;
 
     constructor(
-        sqlite?: SQLite
+        sqlite: SQLite
     ) {
-        if (sqlite) {
-            Connector.sqlite = sqlite;
-        }
+        Connector.sqlite = sqlite;
 
         if (!Connector.sqlite) {
             throw new AdapterError('Failed to load Sqlite adapter');
         }
     }
 
-    static async load(manager: Manager): Promise<ConnectorInterface> {
+    static async load(manager: Manager, sqlite: SQLite): Promise<ConnectorInterface> {
 
-        const connector = new Connector();
+        const connector = new Connector(sqlite);
 
         connector.connection = await connector.getConnection(manager);
 

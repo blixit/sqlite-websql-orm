@@ -103,7 +103,7 @@ export class SQLFactory {
             const field = schema[key].name;
             fieldsArray.push(field);
             valuesArray.push({
-                value: object[field],
+                value: object[schema[key].propertyKey],
                 type: schema[key].type
             });
           }
@@ -130,7 +130,8 @@ export class SQLFactory {
             for (const key in schema) {
                 if (key) {
                     const field = schema[key].name;
-                    options.affectations.push(field + ' = ' + SQLInjector.getInjectedValue(object[field], schema[key].type));
+                    const propertyKey = schema[key].propertyKey;
+                    options.affectations.push(field + ' = ' + SQLInjector.getInjectedValue(object[propertyKey], schema[key].type));
                 }
             }
         }
@@ -165,9 +166,9 @@ export class SQLFactory {
     }
 
     getDeleteSql(classname: string, entity?: EntityInterface, options?: DeleteOption): string {
+        options = options || {};
 
         if (entity) {
-            options = options || {};
             options.conditions = options.conditions || [];
             // WARNING: if an entity is provided with a condition on id, then there will be a conflict because of the line below
             options.conditions.push('id = ' + entity.id);
@@ -176,6 +177,13 @@ export class SQLFactory {
         let sql = 'DELETE ';
 
         sql += ' FROM ' + classname;
+
+        // if an id is set then only an object should be modified
+        if (options.id) {
+            options.conditions = options.conditions || [];
+            options.conditions.push(SQLInjector.setAffectation('id', options.id, Type.INTEGER));
+        }
+
         // Add the WHERE clause if conditions exist
         sql += this.buildSqlWhereClause(options.conditions);
 

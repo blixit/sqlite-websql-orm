@@ -43,7 +43,7 @@ export function getSchemaFactory(manager: Manager, sqlFactory: SQLFactory) {
 
     EntityRepository,
 
-    SQLiteConnector, WebSqlConnector,
+    // SQLiteConnector, WebSqlConnector,
 
   ]
 })

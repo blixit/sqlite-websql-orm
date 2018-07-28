@@ -31,10 +31,13 @@ export class SwoWorker {
 
         if (toAdd.__hash__ === undefined ) {
             toAdd.__hash__ = SwoWorker.lastTaskId++;
-            this.addToQueue(toAdd, type);
-        } else {
-            this.updateQueue(toAdd, type);
+        //     console.log('adding to queue', toAdd, type);
+        // } else {
+        //     this.updateQueue(toAdd, type);
+        //     console.log('edit queue', toAdd, type);
         }
+
+        this.addToQueue(toAdd, type);
 
         return this;
     }

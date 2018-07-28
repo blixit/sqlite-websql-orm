@@ -30,6 +30,31 @@ export class AbstractRepository {
     }
 
     /**
+     * @warning
+     * TODO: add a ttl option to the function 'executeSelectJoin' to let it know how to decremente it in order
+     * to avoid cycle references while lazyloading
+     *
+     * @param object
+     * @param joinField
+     * @param join
+     * @param item
+     * @param jointures
+     */
+    executeSelectJoin(object, joinField, join, item, jointures): Promise<EntityInterface[]> {
+        return this.parentRepository.getRepositories()[join]
+        .select({
+            conditions: [jointures[join].field + '= \'' + item[join] + '\'']
+        })
+        .then(data => {
+            object[joinField] = data.length > 0 ? data[0] : null;
+            return object;
+        })
+        .catch(error => {
+            object[joinField] = null;
+        });
+    }
+
+    /**
      * Will be overrided
      * @param options
      */
@@ -63,19 +88,21 @@ export class AbstractRepository {
      */
     findOneBy(options: any): Promise<EntityInterface|null> {
         return new Promise<EntityInterface>((resolve, reject) => {
-        // set limit to get only one element
-        options.limit = '0,1';
+            // set limit to get only one element
+            options.limit = '0,1';
 
-        this.select(options).then((results: EntityInterface[]) => {
+            this.select(options).then((results: EntityInterface[]) => {
 
-            const data: EntityInterface[] = results as Array<EntityInterface>;
-            if (data.length > 0) {
-                resolve(data[0]);
-            } else {
-                reject(null);
-            }
+                const data: EntityInterface[] = results as Array<EntityInterface>;
+                if (data.length > 0) {
+                    resolve(data[0]);
+                } else {
+                    reject(null);
+                }
 
-        }).catch(error => reject(error));
+            }).catch(error => {
+                reject(error);
+            });
         });
     }
 

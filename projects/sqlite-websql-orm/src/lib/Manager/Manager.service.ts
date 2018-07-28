@@ -11,6 +11,7 @@ import { Connector as SQLiteConnector } from '../Adapters/SQLite/Connector';
 import { Connector as WebSqlConnector } from '../Adapters/WebSQL/Connector';
 import { ConnectorInterface } from '../Adapters/ConnectorInterface';
 import { RepositoryInterface } from '../Repository/RepositoryInterface.interface';
+import { SQLite } from '@ionic-native/sqlite';
 
 /**
  * @dynamic
@@ -27,7 +28,7 @@ export class Manager implements ManagerInterface {
   protected currentAdapter: string;
 
   constructor(
-    // private sqlite: SQLite
+    private sqlite: SQLite
   ) {
 
     Manager.worker = Manager.worker || new SwoWorker();
@@ -60,7 +61,7 @@ export class Manager implements ManagerInterface {
 
     switch (adapter) {
       case ADAPTERS.sqlite: {
-        Manager.connector = await SQLiteConnector.load(this);
+        Manager.connector = await SQLiteConnector.load(this, this.sqlite);
         this.currentAdapter = ADAPTERS.sqlite;
       }
       break;
@@ -93,7 +94,7 @@ export class Manager implements ManagerInterface {
       this.currentAdapter = ADAPTERS.websql;
       return WebSqlConnector.load(this);
     } catch (error) {
-      connectorPromise = SQLiteConnector.load(this);
+      connectorPromise = SQLiteConnector.load(this, this.sqlite);
       this.currentAdapter = ADAPTERS.sqlite;
       return connectorPromise;
     }

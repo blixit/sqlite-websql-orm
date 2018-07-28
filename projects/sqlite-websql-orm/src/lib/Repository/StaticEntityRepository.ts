@@ -139,7 +139,7 @@ export class StaticEntityRepository {
         reject,
         options: any = {}
     ) {
-        repository.find(res.insertId).then(entity => {
+        repository.find(res.insertId).then((entity: EntityInterface) => {
             entity.__hash__ = options.hash || '';
             for (const p in entity) {
                 if (p) {
