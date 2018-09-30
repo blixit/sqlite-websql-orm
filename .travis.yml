@@ -1,0 +1,26 @@
+language: node_js
+sudo: true
+dist: trusty
+node_js:
+  - '8.11'
+
+cache:
+  yarn: true
+  directories:
+     - ./node_modules
+     - ./.chrome/chromium
+     - ./aio/node_modules
+
+matrix:
+  fast_finish: true
+
+before_install:
+  - npm install -g @angular/cli
+  
+install:
+  - npm install 
+  - npm i --save @ionic-native/core
+  - npm i --save @ionic-native/sqlite
+  - npm i --save rxjs
+  - npm i --save rxjs-compat
+  - npm test sqlite-websql-orm

@@ -15,6 +15,16 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "sqlite-websql-orm": [
+        "dist/sqlite-websql-orm",
+        "dist/sqlite-websql-orm"
+      ],
+      "sqlite-websql-orm/*": [
+        "dist/sqlite-websql-orm/*",
+        "dist/sqlite-websql-orm/*"
+      ]
+    }
   }
 }
