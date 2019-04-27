@@ -1,0 +1,26 @@
+{
+  "name": "sqlite-websql-orm",
+  "version": "2.0.0",
+  "author": "Blixit<alain.ngangoue@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "@ionic-native/sqlite": "^5.5.0",
+    "@ionic-native/core": "^5.5.0"
+  },
+  "keywords": [
+    "orm",
+    "angular",
+    "ionic",
+    "websql",
+    "sqlite"
+  ],
+  "bugs": {
+    "url": "https://github.com/blixit/sqlite-websql-orm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blixit/sqlite-websql-orm.git"
+  }
+}
