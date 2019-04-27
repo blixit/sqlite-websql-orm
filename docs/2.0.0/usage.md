@@ -1,0 +1,239 @@
+
+# Usage
+
+## 1. Define a entity
+
+
+```ts
+import { Column, AbstractEntity } from 'sqlite-websql-orm';
+
+export class Personne extends AbstractEntity {
+  @Column('INTEGER PRIMARY KEY')
+  public id: number;
+
+  @Column('TEXT')
+  public name: string; 
+}
+
+```
+
+## 2. Join another entity
+
+```ts
+// Entity/profession.ts
+import { Column, AbstractEntity } from 'sqlite-websql-orm';
+
+export class Profession extends AbstractEntity {
+  @Column('INTEGER PRIMARY KEY')
+  public id: number;
+
+  @Column('TEXT')
+  public name: string = '';
+}
+
+```
+
+```ts
+// Entity/personne.ts
+import { Column, Join, AbstractEntity } from 'sqlite-websql-orm';
+import { Profession } from './profession';
+
+export class Personne extends AbstractEntity {
+  @Column('INTEGER PRIMARY KEY')
+  public id: number;
+
+  @Column('TEXT')
+  public name: string; 
+
+  @Join({
+    class: 'Profession',
+    field: 'id',
+    getter: 'getProfession'
+  })
+  @Column('INTEGER')
+  public profession: number;
+
+  // this function returns a profession if the current instance of Personne has been retreived from the entity manager or a repository
+  getProfession(): Profession {
+      return null;
+  }
+}
+
+```
+
+
+## 3. Define repositories
+
+Repositories need to be defined as angular services. 
+
+1. That means the  `@Injectable({providedIn: 'root'})` annotation is required.
+The `provideIn` option allows you to declare your repository on the root level since a repository
+doesnt care about the angular module in which you are calling it. To keep your repository at the
+module level, just remove the option.
+
+2. Then to link a repository to its unique class, use the `@Repository` annotation.
+
+3. A mapping function `mapArrayToObject()` is can be used to convert database data array into `EntityInterface` object.
+
+```ts 
+import { Repository, Manager, EntityRepository } from 'sqlite-websql-orm';
+import { Injectable } from '@angular/core';
+import { Personne } from '../Entity/personne';
+
+@Injectable({ providedIn: 'root' })
+@Repository(Personne)
+export class PersonneRepository extends EntityRepository {
+  constructor(public manager: Manager) {
+    super(manager);
+  }
+}
+```
+
+## 4. Declare the module and your repositories
+
+Now go to the module where you want to import our module and follow these steps :
+
+### Import
+
+```ts
+import { ADAPTERS, SchemaFactory, SchemaInterface, SqliteWebsqlOrmModule } from 'sqlite-websql-orm';
+```
+
+```ts
+import { PersonneRepository } from './Repository/PersonneRepository';
+import { ProfessionRepository } from './Repository/ProfessionRepository';
+```
+
+### Declaration
+
+```ts
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    // ...,
+    OrmModule.init({
+      name: 'my_custom_database.db',
+      location: 'default',
+      options: {
+        useFakeDatabase: true,
+        webname: 'my_custom_database',
+        description: 'SQLite/WebSQL database for browser',
+        version: '1.0',
+        maxsize: 2 * 1024 * 1024
+      }
+    })
+  ],
+  providers: [
+    ProfessionRepository, // optional if provided in root
+    PersonneRepository, // optional if provided in root
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule {
+  constructor(schemaFactory: SchemaFactory) {
+    schemaFactory.generateSchema()
+      .subscribe((schema: SchemaInterface) => {
+        console.log('Schema generated', schema);
+      });
+  }
+}
+
+```
+
+
+## 5. Usage in component with Entity Manager
+
+Component example :
+
+```ts
+import { Component, OnInit  } from '@angular/core';
+import { Manager as EntityManager, Notifier, SchemaFactory, EntityInterface, AbstractEntity } from 'sqlite-websql-orm';
+// custom service to receive event when database is ready
+import { Personne           } from './Entity/personne';
+import { Profession         } from './Entity/profession';
+import { PersonneRepository } from './Repository/PersonneRepository';
+
+export class AppComponent implements OnInit {
+  constructor(
+    public personneRepository: PersonneRepository,
+    public manager: EntityManager,
+    public notifier: Notifier,
+  ) {}
+
+  ngOnInit() {
+    // this step is mandatory the 1st time your app is launched
+    // because the database doesnt exist yet
+    this.notifier.onSchemaReady().subscribe(async data => {
+      // Do something when your schema is created
+      // like dismissing a loading spinner
+    });
+
+    // The following should be done once your databse is created
+
+    // test insert
+    const profession: Profession = new Profession();
+    profession.id = 1;
+    profession.name = 'Ingénieur';
+    try {
+      await this.manager.persist(profession).asyncFlush();
+      console.log('profession saved', profession);
+    } catch (e) {
+      console.error('e', e);
+    }
+
+    // Test merge
+    let profession2: Profession = new Profession();
+    profession2 = Object.assign<Profession, Profession>(profession2, profession);
+    profession2.name = profession.name + 'nouveau nom';
+
+    try {
+      await this.manager.merge(profession2).asyncFlush();
+      console.log('profession updated', profession2);
+    } catch (e) {
+      console.error('e', e);
+    }
+
+    // Test remove
+    try {
+      await this.manager.remove(profession).asyncFlush();
+      console.log('profession removed', profession);
+    } catch (e) {
+      console.error('e', e);
+    }
+  }
+}
+
+```
+
+You can use `await/async` to force synchronization but it is not mandatory. You can use `Observale` as well.
+Notice the use of `flush() => Observable` instead of `asyncFlush() => Promise`
+
+```ts
+this.manager.persist(profession).flush().subscribe(() => {
+    // use the same profession obejct
+    console.log('Id = ', profession.id); // will show something like 'Id = 15'
+}, (error) => {
+    // manage your error
+})
+
+```
+
+## 6. Usage of repository
+
+
+```ts
+export class AppComponent implements OnInit {
+
+  constructor(public personneRepository: PersonneRepository) {}
+
+  ngOnInit(){
+    this.personneRepository.findAll()
+    .subscribe((personnes: Personne[]) => {
+        console.log('Personnes', personnes);
+    }, error => {
+        // manage your error
+    })
+  }
+```
